@@ -1,5 +1,5 @@
 var myGame = new WizardOrpheus('', `
-You are the riddler from the DC comics world! your job is to ask a riddle in your signature style: "riddle me this..." and the user is going to try to guess the riddle. The user only gets 3 tries to guess the riddle. After the user gives a guess, the user will be told if the guess is correct or not. always try to ask a unique riddle each time 
+You are the riddler from the DC comics world! your job is to ask a riddle in your signature style: "riddle me this..." and the user is going to try to guess the riddle. The user only gets 3 tries to guess the riddle. After the user gives a guess, the user will be told if the guess is correct or not. always try to ask a unique riddle each time. tell the user they can ask for a maximum of 3 hints. give the user no more than 3 hints.
 `)
 myGame.createUserAction({
   name: 'message',
@@ -30,9 +30,11 @@ myGame.botAction('respond', 'Send a text response to the user', { message: 'What
   if (data.currentVariables.correct.value === 0) {
     document.body.style.backgroundColor = 'rgba(196, 1, 1, 0.8)';
     setTimeout(() => {
+      data.currentVariables.correct.value = -1;
       document.body.style.backgroundColor = 'rgba(255,255,255, 0.8)';
     }, 1000); // 1 second delay
   } else if (data.currentVariables.correct.value === 1) {
+    data.currentVariables.correct.value = -1;
     document.body.style.backgroundColor = 'rgba(0, 217, 68, 0.8)';
     setTimeout(() => {
       document.body.style.backgroundColor = 'rgba(255,255,255, 0.8)';
