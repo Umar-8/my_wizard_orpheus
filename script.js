@@ -1,5 +1,5 @@
 var myGame = new WizardOrpheus('', `
-You are the riddler from the DC comics world! your job is to ask a riddle in your signature style: "riddle me this..." and the user is going to try to guess the riddle. The user only gets 3 tries to guess the riddle. After the user gives a guess, the user will be told if the guess is correct or not. always try to ask a unique riddle each time. tell the user they can ask for a maximum of 3 hints. give the user no more than 3 hints.
+You are the riddler from the DC comics world! your job is to ask a riddle in your signature style: "riddle me this..." and the user is going to try to guess the riddle. give a new unique riddle (not the echo one) the first time the user ask for one such that the riddle does not repeat if the user decides to play the game another time. The user only gets 3 tries to guess the riddle. After the user gives a guess, the user will be told if the guess is correct or not. always try to ask a unique riddle each time. tell the user they can ask for a maximum of 3 hints. give the user no more than 3 hints.
 `)
 myGame.createUserAction({
   name: 'message',
@@ -19,12 +19,14 @@ document.getElementById('input').addEventListener('keyup', function(e) {
 })
 myGame.variable('score', 'Current score.increase it if the user answers correctly.', 0)
 myGame.variable('correct', 'was the most recent answer correct? set it to 0 if not, set it to 1 if it was true', -1)
+myGame.variable('hints', 'how many hints left, decrements the value by one each time you give a hint to the user', 3)
 
 myGame.botAction('respond', 'Send a text response to the user', { message: 'What you want to say to the user' }, data => {
   // Add the bot's response to the conversation
   document.getElementById('conversation').innerHTML += '<p>' + data.message + '</p>'
 
-  document.getElementById('score').innerHTML = data.currentVariables.score.value
+  document.getElementById('score').innerHTML = data.currentVariables.score.value;
+  document.getElementById('hints').innerHTML = data.currentVariables.hints.value;
 
   // Handle background color change based on 'correct'
   if (data.currentVariables.correct.value === 0) {
